@@ -30,10 +30,31 @@ export default function Form() {
                     });
                     setCampgrounds(filtered);
                     setFacilityList([]);
-                    console.log(result);
+                    setFacility([]);
                     if(result.length == 1){
                         setPlaceId(result[0].PlaceId);
                         // show = true;
+
+                        let data = {
+                            CountNearby: false,
+                            PlaceId: result[0].PlaceId,
+                            StartDate: new Date().toISOString().split('T')[0]
+                        }
+                        fetch("https://bccrdr.usedirect.com/rdr/rdr/search/place", {
+                            method: 'POST', // or 'PUT'
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Success:', Object.values(data.SelectedPlace.Facilities));
+                                setFacilityList(Object.values(data.SelectedPlace.Facilities));
+                            })
+                            .catch((error) => {
+                                console.error('Error:', error);
+                            });
                     }
                 }
             )
@@ -58,33 +79,29 @@ export default function Form() {
                 ) : (<option key="N/A" value="NO Matching Campsite" readonly > NO Matching Campsite</option>)} 
             </datalist>
                 
-            {show? 
-                <>
-                    <label>Facility(name of campsite)</label>
-                    <input type='text' list="facility" value={facility} onChange={e => setFacility(e.target.value)} ref={register({ required: true })}/>
-                    <datalist id="facility">
-                        {/* <>
-                            <option key=0 value="all">All</option>
-                            {campgroundList.length? campgroundList.map((camp) =>
-                                <option key={camp.Name} name={camp.PlaceId} value={camp.Name}>{camp.Name}</option>
-                            ) 
-                            </>
-                        : (<option key="N/A" value="NO Matching Campsite" readonly > NO Matching Campsite</option>)}  */}
-                    </datalist>
-                </>
-            : <></>}
-            <datalist id="park">
-                {campgroundList.length? campgroundList.map((camp) =>
-                    <option key={camp.Name} name={camp.PlaceId} value={camp.Name}>{camp.Name}</option>
-                ) : (<option key="N/A" value="NO Matching Campsite" readonly > NO Matching Campsite</option>)} 
+            <label>Facility(name of campsite)</label>
+            <input type='text' list="facility" value={facility} onChange={e => setFacility(e.target.value)} ref={register({ required: true })}/>
+            <datalist id="facility">
+                <option key = "0" value="All">All</option>
+                {
+                    facilityList.length? 
+                        facilityList.map((facility) =>
+                            <option key={facility.FacilityId} name={facility.Name} value={facility.Name}>{facility.Name}</option>) 
+                        : 
+                        <></>
+                } 
             </datalist>
-
+            
+           
             <label>Select Date</label>
             <input type="date" id="date" name="date"
                 min={today} value={date} onChange={e => setDate(e.target.value)}></input>
 
+
             <label >Stay Length (between 1 to 14):</label>
             <input type="number" value={nights} onChange={e => setNights(e.target.value)} min="1" max="14"/>
+            
+            
             <label for="email">Enter your email:</label>
             <input type="email"  value={email} onChange={e => setEmail(e.target.value)}></input>
 
