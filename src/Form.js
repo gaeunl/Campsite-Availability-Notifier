@@ -30,6 +30,7 @@ export default function Form() {
                     });
                     setCampgrounds(filtered);
                     setFacilityList([]);
+                    setFacility([]);
                     if(result.length == 1){
                         setPlaceId(result[0].PlaceId);
                         // show = true;
@@ -78,29 +79,29 @@ export default function Form() {
                 ) : (<option key="N/A" value="NO Matching Campsite" readonly > NO Matching Campsite</option>)} 
             </datalist>
                 
-            {show? 
-                <>
-                    <label>Facility(name of campsite)</label>
-                    <input type='text' list="facility" value={facility} onChange={e => setFacility(e.target.value)} ref={register({ required: true })}/>
-                    <datalist id="facility">
-                        <option key = "0" value="All">All</option>
-                        {
-                            facilityList.length? 
-                                facilityList.map((facility) =>
-                                    <option key={facility.FacilityId} name={facility.Name} value={facility.Name}>{facility.Name}</option>) 
-                                : 
-                                <></>
-                        } 
-                    </datalist>
-                </>
-            : <></>}
-
+            <label>Facility(name of campsite)</label>
+            <input type='text' list="facility" value={facility} onChange={e => setFacility(e.target.value)} ref={register({ required: true })}/>
+            <datalist id="facility">
+                <option key = "0" value="All">All</option>
+                {
+                    facilityList.length? 
+                        facilityList.map((facility) =>
+                            <option key={facility.FacilityId} name={facility.Name} value={facility.Name}>{facility.Name}</option>) 
+                        : 
+                        <></>
+                } 
+            </datalist>
+            
+           
             <label>Select Date</label>
             <input type="date" id="date" name="date"
                 min={today} value={date} onChange={e => setDate(e.target.value)}></input>
 
+
             <label >Stay Length (between 1 to 14):</label>
             <input type="number" value={nights} onChange={e => setNights(e.target.value)} min="1" max="14"/>
+            
+            
             <label for="email">Enter your email:</label>
             <input type="email"  value={email} onChange={e => setEmail(e.target.value)}></input>
 
