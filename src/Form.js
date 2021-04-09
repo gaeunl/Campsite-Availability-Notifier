@@ -30,10 +30,30 @@ export default function Form() {
                     });
                     setCampgrounds(filtered);
                     setFacilityList([]);
-                    console.log(result);
                     if(result.length == 1){
                         setPlaceId(result[0].PlaceId);
                         // show = true;
+
+                        let data = {
+                            CountNearby: false,
+                            PlaceId: result[0].PlaceId,
+                            StartDate: new Date().toISOString().split('T')[0]
+                        }
+                        fetch("https://bccrdr.usedirect.com/rdr/rdr/search/place", {
+                            method: 'POST', // or 'PUT'
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Success:', Object.values(data.SelectedPlace.Facilities));
+                                setFacilityList(Object.values(data.SelectedPlace.Facilities));
+                            })
+                            .catch((error) => {
+                                console.error('Error:', error);
+                            });
                     }
                 }
             )
@@ -63,21 +83,17 @@ export default function Form() {
                     <label>Facility(name of campsite)</label>
                     <input type='text' list="facility" value={facility} onChange={e => setFacility(e.target.value)} ref={register({ required: true })}/>
                     <datalist id="facility">
-                        {/* <>
-                            <option key=0 value="all">All</option>
-                            {campgroundList.length? campgroundList.map((camp) =>
-                                <option key={camp.Name} name={camp.PlaceId} value={camp.Name}>{camp.Name}</option>
-                            ) 
-                            </>
-                        : (<option key="N/A" value="NO Matching Campsite" readonly > NO Matching Campsite</option>)}  */}
+                        <option key = "0" value="All">All</option>
+                        {
+                            facilityList.length? 
+                                facilityList.map((facility) =>
+                                    <option key={facility.FacilityId} name={facility.Name} value={facility.Name}>{facility.Name}</option>) 
+                                : 
+                                <></>
+                        } 
                     </datalist>
                 </>
             : <></>}
-            <datalist id="park">
-                {campgroundList.length? campgroundList.map((camp) =>
-                    <option key={camp.Name} name={camp.PlaceId} value={camp.Name}>{camp.Name}</option>
-                ) : (<option key="N/A" value="NO Matching Campsite" readonly > NO Matching Campsite</option>)} 
-            </datalist>
 
             <label>Select Date</label>
             <input type="date" id="date" name="date"
