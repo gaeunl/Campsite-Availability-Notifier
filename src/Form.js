@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 
 export default function Form() {
     const { register, handleSubmit, watch, errors } = useForm();
-    const onSubmit = data => console.log(data);
     const [campgroundList, setCampgrounds] = useState([]);
     const [campName, setCampName] = useState("");
     const [unit, setUnit] = useState("");
@@ -16,9 +15,23 @@ export default function Form() {
     const [facility, setFacility] = useState("");
     const [facilityList, setFacilityList] = useState([]);
     const emailRegExp = "[A-za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$";
-    let show = true;
 
 
+    const onSubmit = data => {
+        let facilityData = facility.split(",");
+
+        let confirmed = window.confirm(`Request detail: \n 
+            Email: ${email} \n 
+            Campsite Name: ${campName} \n
+            Facility: ${facilityData[1]} \n
+            Date: ${date} \n
+            Nights: ${nights} `);
+        if(!confirmed){ //user pressed cancel
+            return;
+        }
+        setFacilityId(facilityData[0]);
+        setFacility(facilityData[1]);
+    };
 
     useEffect(() =>{
         let addr = "https://bccrdr.usedirect.com/rdr/rdr/fd/citypark/namecontains/" + campName + "?_=1616539859706";
@@ -34,8 +47,6 @@ export default function Form() {
                     setFacility([]);
                     if(result.length == 1){
                         setPlaceId(result[0].PlaceId);
-                        // show = true;
-
                         let data = {
                             CountNearby: false,
                             PlaceId: result[0].PlaceId,
@@ -86,9 +97,9 @@ export default function Form() {
                 {
                     facilityList.length? 
                         <>
-                            <option key = "0" value="All">All</option>
+                            <option key = "0" value="All,All">All</option>
                             {facilityList.map((facility) =>
-                                <option key={facility.FacilityId} value={facility.Name}>{facility.Name}</option>)} 
+                                <option key={facility.FacilityId} value={[facility.FacilityId, facility.Name]}>{facility.Name}</option>)} 
                         </>
                         : 
                         <></>

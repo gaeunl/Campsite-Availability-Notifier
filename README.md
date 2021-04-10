@@ -72,3 +72,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 ## React hook form
 
 [react-hook-form](https://react-hook-form.com/get-started)
+
+## To-do
+
+- Create a card and show the information that user entered on the other page [example] ( https://css-tricks.com/the-magic-of-react-based-multi-step-forms/)
+
+- Connect DB and store in the db
+
+- Deploy on AWS console
