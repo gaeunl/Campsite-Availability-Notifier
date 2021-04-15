@@ -75,8 +75,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ## To-do
 
-- Create a card and show the information that user entered on the other page [example] ( https://css-tricks.com/the-magic-of-react-based-multi-step-forms/)
+- [ ] Create a card and show the information that user entered on the other page [example] ( https://css-tricks.com/the-magic-of-react-based-multi-step-forms/)
 
-- Connect DB and store in the db
+- [ ] Connect DB and store in the db
 
-- Deploy on AWS console
+- [x] Deploy on AWS console
+  - AWS Amplify for CI/CD - [click here to view](https://main.d1x6fronyrj8ey.amplifyapp.com/)
