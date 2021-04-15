@@ -3,21 +3,35 @@ import { useForm } from "react-hook-form";
 
 export default function Form() {
     const { register, handleSubmit, watch, errors } = useForm();
-    const onSubmit = data => console.log(data);
     const [campgroundList, setCampgrounds] = useState([]);
     const [campName, setCampName] = useState("");
     const [unit, setUnit] = useState("");
     const [nights, setNights] = useState("");
     const [date, setDate] = useState("");
-    const today = new Date();
+    const today = new Date().toJSON().split('T')[0];
     const [email, setEmail] = useState("");
     const [placeId, setPlaceId] = useState("");
     const [facilityId, setFacilityId] = useState("");
     const [facility, setFacility] = useState("");
     const [facilityList, setFacilityList] = useState([]);
-    let show = true;
+    const emailRegExp = "[A-za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$";
 
 
+    const onSubmit = data => {
+        let facilityData = facility.split(",");
+
+        let confirmed = window.confirm(`Request detail: \n 
+            Email: ${email} \n 
+            Campsite Name: ${campName} \n
+            Facility: ${facilityData[1]} \n
+            Date: ${date} \n
+            Nights: ${nights} `);
+        if(!confirmed){ //user pressed cancel
+            return;
+        }
+        setFacilityId(facilityData[0]);
+        setFacility(facilityData[1]);
+    };
 
     useEffect(() =>{
         let addr = "https://bccrdr.usedirect.com/rdr/rdr/fd/citypark/namecontains/" + campName + "?_=1616539859706";
@@ -33,12 +47,10 @@ export default function Form() {
                     setFacility([]);
                     if(result.length == 1){
                         setPlaceId(result[0].PlaceId);
-                        // show = true;
-
                         let data = {
                             CountNearby: false,
                             PlaceId: result[0].PlaceId,
-                            StartDate: new Date().toISOString().split('T')[0]
+                            StartDate: today
                         }
                         fetch("https://bccrdr.usedirect.com/rdr/rdr/search/place", {
                             method: 'POST', // or 'PUT'
@@ -72,38 +84,40 @@ export default function Form() {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <label>Park Name</label>
-            <input type='text' list="park" value={campName} onChange={e => setCampName(e.target.value)} ref={register({ required: true })}/>
+            <input type='text' list="park" value={campName} onChange={e => setCampName(e.target.value) } required/>
             <datalist id="park">
                 {campgroundList.length? campgroundList.map((camp) =>
-                    <option key={camp.Name} name={camp.PlaceId} value={camp.Name}>{camp.Name}</option>
-                ) : (<option key="N/A" value="NO Matching Campsite" readonly > NO Matching Campsite</option>)} 
+                    <option key={camp.PlaceId} value={camp.Name}>{camp.Name}</option>
+                ) : (<option key="" readonly > NO Matching Campsite</option>)} 
             </datalist>
                 
             <label>Facility(name of campsite)</label>
-            <input type='text' list="facility" value={facility} onChange={e => setFacility(e.target.value)} ref={register({ required: true })}/>
-            <datalist id="facility">
-                <option key = "0" value="All">All</option>
+            <select id="facility" value={facility} onChange={e => setFacility(e.target.value)} required>
+                <option key = "" value="">--Select One--</option>
                 {
                     facilityList.length? 
-                        facilityList.map((facility) =>
-                            <option key={facility.FacilityId} name={facility.Name} value={facility.Name}>{facility.Name}</option>) 
+                        <>
+                            <option key = "0" value="All,All">All</option>
+                            {facilityList.map((facility) =>
+                                <option key={facility.FacilityId} value={[facility.FacilityId, facility.Name]}>{facility.Name}</option>)} 
+                        </>
                         : 
                         <></>
                 } 
-            </datalist>
+            </select>
             
            
             <label>Select Date</label>
             <input type="date" id="date" name="date"
-                min={today} value={date} onChange={e => setDate(e.target.value)}></input>
+                min={today} value={date} onChange={e => setDate(e.target.value)} required></input>
 
 
-            <label >Stay Length (between 1 to 14):</label>
-            <input type="number" value={nights} onChange={e => setNights(e.target.value)} min="1" max="14"/>
+            <label >Stay Length (between 1 to 14)</label>
+            <input type="number" value={nights} onChange={e => setNights(e.target.value)} required min="1" max="14"/>
             
             
-            <label for="email">Enter your email:</label>
-            <input type="email"  value={email} onChange={e => setEmail(e.target.value)}></input>
+            <label for="email">Email Address</label>
+            <input type="email"  value={email} onChange={e => setEmail(e.target.value)} required pattern = {emailRegExp}></input>
 
             {errors.exampleRequired && <span>This field is required</span>}
             <input type="submit" />
