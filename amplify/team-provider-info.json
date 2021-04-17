@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-camphelper-dev-10200-authRole",
+      "UnauthRoleArn": "arn:aws:iam::263327637476:role/amplify-camphelper-dev-10200-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::263327637476:role/amplify-camphelper-dev-10200-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-camphelper-dev-10200-deployment",
+      "UnauthRoleName": "amplify-camphelper-dev-10200-unauthRole",
+      "StackName": "amplify-camphelper-dev-10200",
+      "StackId": "arn:aws:cloudformation:us-west-2:263327637476:stack/amplify-camphelper-dev-10200/329e9e10-9f53-11eb-a511-021be9d93743",
+      "AmplifyAppId": "d2o1gr5ubvlmka"
+    }
+  }
+}

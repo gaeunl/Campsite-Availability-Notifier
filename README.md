@@ -81,3 +81,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 - [x] Deploy on AWS console
   - AWS Amplify for CI/CD - [click here to view](https://main.d1x6fronyrj8ey.amplifyapp.com/)
+
+## AWS Amplify Docs
+
+https://docs.amplify.aws/start
+
+## Command
+
+| Build Command: npm install
+| Start Command: npm start
