@@ -20,6 +20,12 @@ export default function Form() {
     const onSubmit = data => {
         let facilityData = facility.split(",");
 
+        let parsedDate = date.split("-");
+        parsedDate.push(parsedDate[0]);
+        parsedDate.shift();
+        parsedDate = parsedDate.join('-');
+        
+
         let confirmed = window.confirm(`Request detail: \n 
             Email: ${email} \n 
             Campsite Name: ${campName} \n
