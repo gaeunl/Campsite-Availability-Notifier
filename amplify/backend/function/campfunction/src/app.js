@@ -81,8 +81,8 @@ app.get(path + hashKeyPath, function(req, res) {
     KeyConditions: condition
   }
 
-  // chnage query to scan if auth needed
-  dynamodb.query(queryParams, (err, data) => {
+  // change to scan
+  dynamodb.scan(queryParams, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.json({error: 'Could not load items: ' + err});
