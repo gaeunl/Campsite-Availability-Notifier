@@ -66,6 +66,9 @@ export default function Form() {
     };
 
     useEffect(() =>{
+        if(campName.length < 2){
+            return;
+        }
         let addr = "https://bccrdr.usedirect.com/rdr/rdr/fd/citypark/namecontains/" + campName + "?_=1616539859706";
         fetch(addr)
             .then(res => res.json())
