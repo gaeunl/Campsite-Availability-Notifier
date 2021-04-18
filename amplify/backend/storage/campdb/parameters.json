@@ -1,0 +1,5 @@
+{
+    "tableName": "campdb",
+    "partitionKeyName": "id",
+    "partitionKeyType": "S"
+}
