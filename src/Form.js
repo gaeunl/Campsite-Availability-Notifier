@@ -1,5 +1,11 @@
 import React, { Component, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import Amplify, { API }  from "aws-amplify";
+import awsExports from "./aws-exports";
+
+
+Amplify.configure(awsExports);
+
 
 export default function Form() {
     const { register, handleSubmit, watch, errors } = useForm();
@@ -15,6 +21,7 @@ export default function Form() {
     const [facility, setFacility] = useState("");
     const [facilityList, setFacilityList] = useState([]);
     const emailRegExp = "[A-za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$";
+    const generateUniqueId = require('generate-unique-id');
 
 
     const onSubmit = data => {
@@ -35,8 +42,27 @@ export default function Form() {
         if(!confirmed){ //user pressed cancel
             return;
         }
-        setFacilityId(facilityData[0]);
-        setFacility(facilityData[1]);
+        API
+            .post('campapi', '/camp', {
+                //sent as a body or the payload over to our backend
+                body:{
+                    id: generateUniqueId(),
+                    facility: facilityData,
+                    campName:campName,
+                    date: parsedDate,
+                    email: email,
+                    night:nights,
+                    placeId:placeId.toString(),
+                    unitId:"n/a",  //todo
+                    available:false //todo
+                }
+            })
+            .then(response => {
+                console.log("success\n" +response);
+            })
+            .catch(error => {
+                console.log("Error\n" + error.response);
+            });
     };
 
     useEffect(() =>{
