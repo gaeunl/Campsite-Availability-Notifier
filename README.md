@@ -79,8 +79,15 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 - [ ] Connect DB and store in the db
 
+- [x] change date format to mm-dd-yyyy
+
 - [x] Deploy on AWS console
+
   - AWS Amplify for CI/CD - [click here to view](https://main.d1x6fronyrj8ey.amplifyapp.com/)
+
+- [ ] register a domain name by using aws route 53
+
+- [ ] add unit id and availability
 
 ## AWS Amplify Docs
 
@@ -90,3 +97,7 @@ https://docs.amplify.aws/start
 
 | Build Command: npm install
 | Start Command: npm start
+
+## npm modules
+
+- [Generate Unique ID] (https://www.npmjs.com/package/generate-unique-id)

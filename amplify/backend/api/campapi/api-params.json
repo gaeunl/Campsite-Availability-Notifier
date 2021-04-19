@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/camp",
+            "lambdaFunction": "campfunction",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/camp"
+        }
+    ],
+    "resourceName": "campapi",
+    "apiName": "campapi",
+    "functionArns": [
+        {
+            "lambdaFunction": "campfunction"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-camphelper-dev-10200-authRole",
+        "unAuthRoleName": "amplify-camphelper-dev-10200-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "campfunction",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

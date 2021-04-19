@@ -10,6 +10,14 @@
       "StackName": "amplify-camphelper-dev-10200",
       "StackId": "arn:aws:cloudformation:us-west-2:263327637476:stack/amplify-camphelper-dev-10200/329e9e10-9f53-11eb-a511-021be9d93743",
       "AmplifyAppId": "d2o1gr5ubvlmka"
+    },
+    "categories": {
+      "function": {
+        "campfunction": {
+          "deploymentBucketName": "amplify-camphelper-dev-10200-deployment",
+          "s3Key": "amplify-builds/campfunction-79654462615153464f51-build.zip"
+        }
+      }
     }
   }
 }
