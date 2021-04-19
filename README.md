@@ -77,7 +77,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 - [ ] Create a card and show the information that user entered on the other page [example] ( https://css-tricks.com/the-magic-of-react-based-multi-step-forms/)
 
-- [ ] Connect DB and store in the db
+- [x] Connect DB and store in the db
 
 - [x] change date format to mm-dd-yyyy
 
@@ -88,6 +88,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 - [ ] register a domain name by using aws route 53
 
 - [ ] add unit id and availability
+
+- [ ] delete data from a table vs filter
+  - [Check price] (https://blog.yugabyte.com/dynamodb-pricing-calculator-expensive-vs-alternatives/)
 
 ## AWS Amplify Docs
 
