@@ -111,11 +111,6 @@ export default function Form() {
     },[campName])
 
 
-    const resetAll = (() =>{
-        setCampName("");
-        setUnit("");
-    })
-
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <label>Park Name</label>
