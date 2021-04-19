@@ -1,20 +1,20 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import Form from "./Form"
-import Amplify, { API }  from "aws-amplify";
-import awsExports from "./aws-exports";
+// import Amplify, { API }  from "aws-amplify";
+// import awsExports from "./aws-exports";
 
-Amplify.configure(awsExports);
+// Amplify.configure(awsExports);
 
 function App() {
 
-  useEffect(() => {
-    API.get('campapi', '/camp/id')
-    .then((campRes) => console.log(campRes))
-    .catch(error => {
-      console.log(error.response);
-    });
-  },[])
+  // useEffect(() => {
+  //   API.get('campapi', '/camp/id')
+  //   .then((campRes) => console.log(campRes))
+  //   .catch(error => {
+  //     console.log(error.response);
+  //   });
+  // },[])
   
   return (
     <div className="App">
