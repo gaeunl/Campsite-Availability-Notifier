@@ -16,7 +16,19 @@ export default function Availability( url, camp ){
                     free ++;
                 }
                 })
-                console.log(camp.date+"\nLength: "+ camp.night+"\nTotal Number of Avaiable Campsite : " + free +"\nCampsite Name: " + camp.campName);
+                let msg = '${camp.campName} is available on \n${camp.date} \nLength: #{camp.night} night(s) \nTotal Number of Avaiable Campsite : ${free} '
+                // if(free > 0){
+                //     Email.send({
+                //         Host: "smtp.gmail.com",
+                //         Username: "",
+                //         Password: "",
+                //         To: camp.email,
+                //         From: "CampHelperDoNotReply@gmail.com",
+                //         Subject: camp.campName +" Campsite is Available",
+                //         Body: msg,
+                //     })
+                // }
+                console.log(camp.date+"\nLength: "+ camp.night+" night(s) \nTotal Number of Avaiable Campsite : " + free +"\nCampsite Name: " + camp.campName);
             }
         )
         .catch(error => {

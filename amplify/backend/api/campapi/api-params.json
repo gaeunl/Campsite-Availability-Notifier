@@ -4,7 +4,14 @@
             "name": "/camp",
             "lambdaFunction": "campfunction",
             "privacy": {
-                "open": true
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
             },
             "policyResourceName": "/camp"
         }
@@ -17,7 +24,7 @@
         }
     ],
     "privacy": {
-        "auth": 0,
+        "auth": 1,
         "unauth": 0,
         "authRoleName": "amplify-camphelper-dev-10200-authRole",
         "unAuthRoleName": "amplify-camphelper-dev-10200-unauthRole"

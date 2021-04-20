@@ -24,10 +24,10 @@ if(process.env.ENV && process.env.ENV !== "NONE") {
 
 // if user is logged in with an account then change to true. since no authentication needed it should be false
 const userIdPresent = false; // TODO: update in case is required to use that definition
-const partitionKeyName = "id";
+const partitionKeyName = "email";
 const partitionKeyType = "S";
-const sortKeyName = "";
-const sortKeyType = "";
+const sortKeyName = "id";
+const sortKeyType = "S";
 const hasSortKey = sortKeyName !== "";
 const path = "/camp";
 const UNAUTH = 'UNAUTH';
