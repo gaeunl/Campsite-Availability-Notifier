@@ -1,5 +1,7 @@
 {
     "tableName": "campdb",
-    "partitionKeyName": "id",
-    "partitionKeyType": "S"
+    "partitionKeyName": "email",
+    "partitionKeyType": "S",
+    "sortKeyName": "id",
+    "sortKeyType": "S"
 }

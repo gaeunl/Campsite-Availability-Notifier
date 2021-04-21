@@ -28,6 +28,16 @@ function App() {
     // .catch(error => {
     //   console.log(error.response);
     // });
+
+
+    // API
+    //   .del('campapi', '/camp')
+    //   .then(response => {
+    //     // Add your code here
+    //   })
+    //   .catch(error => {
+    //     console.log(error.response);
+    //   });
     
   },[])
   

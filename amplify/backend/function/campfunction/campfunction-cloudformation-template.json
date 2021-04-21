@@ -97,12 +97,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "camphelperLambdaRole40fa92e6",
+            "camphelperLambdaRolea0a4a8bc",
             {
               "Fn::Join": [
                 "",
                 [
-                  "camphelperLambdaRole40fa92e6",
+                  "camphelperLambdaRolea0a4a8bc",
                   "-",
                   {
                     "Ref": "env"

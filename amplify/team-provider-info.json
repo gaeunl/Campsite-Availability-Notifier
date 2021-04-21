@@ -1,25 +1,22 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-camphelper-dev-10200-authRole",
-      "UnauthRoleArn": "arn:aws:iam::263327637476:role/amplify-camphelper-dev-10200-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::263327637476:role/amplify-camphelper-dev-10200-authRole",
+      "AuthRoleName": "amplify-camphelper-dev-153938-authRole",
+      "UnauthRoleArn": "arn:aws:iam::263327637476:role/amplify-camphelper-dev-153938-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::263327637476:role/amplify-camphelper-dev-153938-authRole",
       "Region": "us-west-2",
-      "DeploymentBucketName": "amplify-camphelper-dev-10200-deployment",
-      "UnauthRoleName": "amplify-camphelper-dev-10200-unauthRole",
-      "StackName": "amplify-camphelper-dev-10200",
-      "StackId": "arn:aws:cloudformation:us-west-2:263327637476:stack/amplify-camphelper-dev-10200/329e9e10-9f53-11eb-a511-021be9d93743",
-      "AmplifyAppId": "d2o1gr5ubvlmka"
+      "DeploymentBucketName": "amplify-camphelper-dev-153938-deployment",
+      "UnauthRoleName": "amplify-camphelper-dev-153938-unauthRole",
+      "StackName": "amplify-camphelper-dev-153938",
+      "StackId": "arn:aws:cloudformation:us-west-2:263327637476:stack/amplify-camphelper-dev-153938/4cdb6e60-a229-11eb-b713-0685333ae6bf",
+      "AmplifyAppId": "d2tq286k5x0hys"
     },
     "categories": {
       "function": {
         "campfunction": {
-          "deploymentBucketName": "amplify-camphelper-dev-10200-deployment",
-          "s3Key": "amplify-builds/campfunction-51757362396b4a614374-build.zip"
+          "deploymentBucketName": "amplify-camphelper-dev-153938-deployment",
+          "s3Key": "amplify-builds/campfunction-7354777a624f784b5350-build.zip"
         }
-      },
-      "auth": {
-        "cognitoe985b5a7": {}
       }
     }
   }
