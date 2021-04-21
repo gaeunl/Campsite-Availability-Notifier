@@ -31,9 +31,10 @@ function App() {
 
 
     // API
-    //   .del('campapi', '/camp')
+    //   .del('campapi', '/camp/object/' + email + '/' + id)
     //   .then(response => {
     //     // Add your code here
+    //     console.log("Successfully Deleted:\n" + response);
     //   })
     //   .catch(error => {
     //     console.log(error.response);
