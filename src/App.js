@@ -29,7 +29,13 @@ function App() {
     //   console.log(error.response);
     // });
 
+    // Date comparison
+    // var d1 = new Date().toJSON().split('T')[0];
+    // var d2 = new Date('2021-04-20').toJSON().split('T')[0];
 
+    // console.log(d1 > d2);
+
+    // Delete
     // API
     //   .del('campapi', '/camp/object/' + email + '/' + id)
     //   .then(response => {
