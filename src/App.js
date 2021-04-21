@@ -15,36 +15,33 @@ function App() {
     // API.get('campapi', '/camp/id')
     // .then((campRes) => {
     //   campRes.map((camp) =>{
-    //     let url;
-    //     if(camp.facility[0] == "All"){
-    //       url = 'https://bccrdr.usedirect.com/rdr/rdr/fd/availability/getbyplace/'+ camp.placeId+'/startdate/'+camp.date+'/nights/'+camp.night+'/true?_=1616538168676'
+    //     let expired = checkDate(camp.date);
+    //     if(expired){
+    //       /* Delete */
+    //       API
+    //         .del('campapi', '/camp/object/' + camp.email + '/' + camp.id)
+    //         .then(response => {
+    //           // Add your code here
+    //           console.log("Successfully Deleted:\n" + response);
+    //         })
+    //         .catch(error => {
+    //           console.log(error.response);
+    //         });
+    //     }else{
+    //       let url;
+    //       if(camp.facility[0] == "All"){
+    //         url = 'https://bccrdr.usedirect.com/rdr/rdr/fd/availability/getbyplace/'+ camp.placeId+'/startdate/'+camp.date+'/nights/'+camp.night+'/true?_=1616538168676'
+    //       }
+    //       else{
+    //         url = 'https://bccrdr.usedirect.com/rdr/rdr/fd/availability/getbyfacility/'+ camp.facility[0]+'/startdate/'+camp.date+'/nights/'+camp.night+'/true?_=1616538168676'
+    //       }
+    //       Availability(url, camp);
     //     }
-    //     else{
-    //       url = 'https://bccrdr.usedirect.com/rdr/rdr/fd/availability/getbyfacility/'+ camp.facility[0]+'/startdate/'+camp.date+'/nights/'+camp.night+'/true?_=1616538168676'
-    //     }
-    //     Availability(url, camp);
     //   })
     // })
     // .catch(error => {
     //   console.log(error.response);
     // });
-
-    // Date comparison
-    // var d1 = new Date().toJSON().split('T')[0];
-    // var d2 = new Date('2021-04-20').toJSON().split('T')[0];
-
-    // console.log(d1 > d2);
-
-    // Delete
-    // API
-    //   .del('campapi', '/camp/object/' + email + '/' + id)
-    //   .then(response => {
-    //     // Add your code here
-    //     console.log("Successfully Deleted:\n" + response);
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response);
-    //   });
     
   },[])
   
@@ -60,6 +57,12 @@ function App() {
       </header>
     </div>
   );
+}
+
+function checkDate(reservedDate){
+  var d1 = new Date().toJSON().split('T')[0];
+  var d2 = new Date(reservedDate).toJSON().split('T')[0];
+  return (d1 > d2)? true: false;
 }
 
 export default App;
