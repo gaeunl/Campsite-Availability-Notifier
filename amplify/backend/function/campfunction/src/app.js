@@ -12,8 +12,45 @@ const AWS = require('aws-sdk')
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 var bodyParser = require('body-parser')
 var express = require('express')
+const cron = require('node-cron');
 
 AWS.config.update({ region: process.env.TABLE_REGION });
+
+// cron.schedule('0 12/1 * * *', function() {
+//   //every 1 hr
+//   let queryParams = {
+//     TableName: tableName,
+//     KeyConditions: condition
+//   }
+
+//   // change to scan
+//   dynamodb.scan(queryParams, (err, data) => {
+//     if(!err) {
+//       data.Items.map(async(camp) =>{
+//         var d1 = new Date().toJSON().split('T')[0];
+//         var d2 = new Date(camp.date).toJSON().split('T')[0];
+//         email = camp.email;
+//         let expired = d1>d2;
+
+//         if(expired){
+//           app.delete();
+//         }else{
+//             let url;
+//             if(camp.facility[0] == "All"){
+//                 url = 'https://bccrdr.usedirect.com/rdr/rdr/fd/availability/getbyplace/'+ camp.placeId+'/startdate/'+camp.date+'/nights/'+camp.night+'/true?_=1616538168676'
+//             }
+//             else{
+//                 url = 'https://bccrdr.usedirect.com/rdr/rdr/fd/availability/getbyfacility/'+ camp.facility[0]+'/startdate/'+camp.date+'/nights/'+camp.night+'/true?_=1616538168676'
+//             }
+//             msg = await Availability(url, camp);
+//             if(msg != ""){
+//                 msgData.push(msg);
+//             }
+//         }
+//       })
+//     }
+//   });
+// });
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
