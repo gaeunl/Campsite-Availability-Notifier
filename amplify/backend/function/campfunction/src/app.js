@@ -18,38 +18,38 @@ AWS.config.update({ region: process.env.TABLE_REGION });
 
 // cron.schedule('0 12/1 * * *', function() {
 //   //every 1 hr
-//   let queryParams = {
-//     TableName: tableName,
-//     KeyConditions: condition
-//   }
+  // let queryParams = {
+  //   TableName: tableName,
+  //   KeyConditions: condition
+  // }
 
-//   // change to scan
-//   dynamodb.scan(queryParams, (err, data) => {
-//     if(!err) {
-//       data.Items.map(async(camp) =>{
-//         var d1 = new Date().toJSON().split('T')[0];
-//         var d2 = new Date(camp.date).toJSON().split('T')[0];
-//         email = camp.email;
-//         let expired = d1>d2;
+  // // change to scan
+  // dynamodb.scan(queryParams, (err, data) => {
+  //   if(!err) {
+  //     data.Items.map(async(camp) =>{
+  //       var d1 = new Date().toJSON().split('T')[0];
+  //       var d2 = new Date(camp.date).toJSON().split('T')[0];
+  //       email = camp.email;
+  //       let expired = d1>d2;
 
-//         if(expired){
-//           app.delete();
-//         }else{
-//             let url;
-//             if(camp.facility[0] == "All"){
-//                 url = 'https://bccrdr.usedirect.com/rdr/rdr/fd/availability/getbyplace/'+ camp.placeId+'/startdate/'+camp.date+'/nights/'+camp.night+'/true?_=1616538168676'
-//             }
-//             else{
-//                 url = 'https://bccrdr.usedirect.com/rdr/rdr/fd/availability/getbyfacility/'+ camp.facility[0]+'/startdate/'+camp.date+'/nights/'+camp.night+'/true?_=1616538168676'
-//             }
-//             msg = await Availability(url, camp);
-//             if(msg != ""){
-//                 msgData.push(msg);
-//             }
-//         }
-//       })
-//     }
-//   });
+  //       if(expired){
+  //         app.delete();
+  //       }else{
+  //           let url;
+  //           if(camp.facility[0] == "All"){
+  //               url = 'https://bccrdr.usedirect.com/rdr/rdr/fd/availability/getbyplace/'+ camp.placeId+'/startdate/'+camp.date+'/nights/'+camp.night+'/true?_=1616538168676'
+  //           }
+  //           else{
+  //               url = 'https://bccrdr.usedirect.com/rdr/rdr/fd/availability/getbyfacility/'+ camp.facility[0]+'/startdate/'+camp.date+'/nights/'+camp.night+'/true?_=1616538168676'
+  //           }
+  //           msg = await Availability(url, camp);
+  //           if(msg != ""){
+  //               msgData.push(msg);
+  //           }
+  //       }
+  //     })
+  //   }
+  // });
 // });
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -96,6 +96,44 @@ const convertUrlType = (param, type) => {
  * HTTP Get method for list objects *
  ********************************/
 
+app.get(path + '/getByemail'+hashKeyPath, function(req, res) {
+  var condition = {}
+  condition[partitionKeyName] = {
+    ComparisonOperator: 'EQ'
+  }
+
+  if (userIdPresent && req.apiGateway) {
+    condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
+  } else {
+    try {
+      condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
+    } catch(err) {
+      res.statusCode = 500;
+      res.json({error: 'Wrong column type ' + err});
+    }
+  }
+
+  let queryParams = {
+    TableName: tableName,
+    KeyConditions: condition
+  }
+
+  // change to scan
+  dynamodb.query(queryParams, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err});
+    } else {
+      res.json(data.Items);
+    }
+  });
+});
+
+
+/********************************
+ * HTTP Get method for list objects  Based on email Addr*
+ ********************************/
+
 app.get(path + hashKeyPath, function(req, res) {
   var condition = {}
   condition[partitionKeyName] = {
@@ -128,7 +166,6 @@ app.get(path + hashKeyPath, function(req, res) {
     }
   });
 });
-
 /*****************************************
  * HTTP Get method for get single object *
  *****************************************/
