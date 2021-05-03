@@ -8,14 +8,38 @@ See the License for the specific language governing permissions and limitations 
 
 
 
-const AWS = require('aws-sdk')
-var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
-var bodyParser = require('body-parser')
-var express = require('express')
+const AWS = require('aws-sdk');
+var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
+var bodyParser = require('body-parser');
+var express = require('express');
 const cron = require('node-cron');
+var nodemailer = require('nodemailer');
 
 AWS.config.update({ region: process.env.TABLE_REGION });
 
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'camphelperdonotreply@gmail.com',
+    pass: 'camphelper'
+  }
+});
+var mailOptions = {
+  from: 'camphelperdonotreply@gmail.com',
+  to: 'camphelperdonotreply@gmail.com',
+  subject: 'Sending Email using Node.js',
+  html: '<h1>Welcome</h1><p>That was easy!</p>'
+};
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+
+/*'0 12/1 * * *' for every 12 hr */
 // cron.schedule('0 12/1 * * *', function() {
 //   //every 1 hr
   // let queryParams = {
