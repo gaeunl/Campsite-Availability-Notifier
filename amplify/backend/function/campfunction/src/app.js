@@ -96,7 +96,7 @@ const convertUrlType = (param, type) => {
 }
 
 // /********************************
-//  * HTTP Get method for list objects *
+//  * HTTP Get method for list objects * Based on email Addr
 //  ********************************/
 
 // app.get(path + '/getByemail'+hashKeyPath, function(req, res) {
@@ -134,7 +134,7 @@ const convertUrlType = (param, type) => {
 
 
 // /********************************
-//  * HTTP Get method for list objects  Based on email Addr*
+//  * HTTP Get method for list objects *
 //  ********************************/
 
 // app.get(path + hashKeyPath, function(req, res) {
@@ -148,6 +148,8 @@ const convertUrlType = (param, type) => {
 //   } else {
 //     try {
 //       condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
+//       console.log({reqparams: req.params[partitionKeyName]});
+
 //     } catch(err) {
 //       res.statusCode = 500;
 //       res.json({error: 'Wrong column type ' + err});

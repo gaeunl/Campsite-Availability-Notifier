@@ -18,7 +18,7 @@ const AWS = require('aws-sdk');
 var nodemailer = require('nodemailer');
 // const cron = require('node-cron');
 AWS.config.update({ region: process.env.TABLE_REGION });
-
+// AWS.config.update({region: "us-west-2"});
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const userIdPresent = false; // TODO: update in case is required to use that definition
@@ -58,45 +58,11 @@ const convertUrlType = (param, type) => {
   }
 }
 
-// function getCampData(req, res) {
-//   var condition = {}
-//   condition[partitionKeyName] = {
-//     ComparisonOperator: 'EQ'
-//   }
-
-//   if (userIdPresent && req.apiGateway) {
-//     condition[partitionKeyName]['AttributeValueList'] = [req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH ];
-//   } else {
-//     try {
-//       condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType(req.params[partitionKeyName], partitionKeyType) ];
-//     } catch(err) {
-//       res.statusCode = 500;
-//       res.json({error: 'Wrong column type ' + err});
-//     }
-//   }
-
-//   let queryParams = {
-//     TableName: tableName,
-//     KeyConditions: condition
-//   }
-
-//   // change to scan
-//   dynamodb.scan(queryParams, (err, data) => {
-//     if (err) {
-//       res.statusCode = 500;
-//       res.json({error: 'Could not load items: ' + err});
-//     } else {
-//       res.json(data.Items);
-//     }
-//   });
-// });
-
 var condition = {};
 //Get Camp data Request
 condition[partitionKeyName] = {
   ComparisonOperator: 'EQ'
 }
-
 
 try {
   condition[partitionKeyName]['AttributeValueList'] = [ convertUrlType('email', partitionKeyType) ];
@@ -104,22 +70,25 @@ try {
   console.log({error: 'Wrong column type ' + err});
 }
 
-
 let queryParams = {
   TableName: tableName,
   KeyConditions: condition
 }
 
 // change to scan
-dynamodb.query(queryParams, (err, data) => {
+dynamodb.scan(queryParams, (err, data) => {
   if (err) {
     console.log({error: 'Could not load items: ' + err});
   } else {
-    console.log(data.Items);
+    //data.Items
+    console.log({data: data});
     emailData+= `<p>${data.Items}<p>`
     data = data.Items;
   }
 })
+
+console.log({CurrentTime: new Date().toJSON().split('T')[0]});
+
 
 // for each object check if requested date has been passed or not
 // .. if passed, Delete the camp data
@@ -127,7 +96,7 @@ dynamodb.query(queryParams, (err, data) => {
 data.map(async(camp)=>{
   let expired = checkExpiredDate(camp.date);
   if(expired){
-    const response = deleteCampData(camp.email, camp.id);
+    // const response = deleteCampData(camp.email, camp.id);
   }else{
     let url;
     if(camp.facility[0] == "All"){
