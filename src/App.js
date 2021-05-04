@@ -1,13 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import Form from "./Form"
-import Handler from "./data/Handler";
 
 function App() {
-  useEffect(() => {
-    Handler();
-  })
-  
   
   return (
     <div className="App">
