@@ -24,6 +24,11 @@
           }
         }
       ]
+    },
+    "campingAvailabilityNotifier": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "api": {

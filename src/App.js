@@ -5,7 +5,7 @@ import Handler from "./data/Handler";
 
 function App() {
   useEffect(() => {
-    Handler();
+    // Handler();
   })
   
   
