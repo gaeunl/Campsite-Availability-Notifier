@@ -13,7 +13,7 @@
 // .. iterate fetched data to see how many campsites are free
 // .. send email if number of free campsites is more than 0
 
-
+const fetch = require("node-fetch");
 const AWS = require('aws-sdk');
 var nodemailer = require('nodemailer');
 // const cron = require('node-cron');
@@ -39,7 +39,6 @@ if(process.env.ENV && process.env.ENV !== "NONE") {
 
 // install aws-sdk, cron, nodemailer
 var emailData = `<h1>Hello</h1><p>That was easy!</p>`;
-let data = [];
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -75,55 +74,52 @@ let queryParams = {
   KeyConditions: condition
 }
 
-// change to scan
-dynamodb.scan(queryParams, (err, data) => {
-  if (err) {
-    console.log({error: 'Could not load items: ' + err});
-  } else {
-    //data.Items
-    console.log({data: data});
-    emailData+= `<p>${data.Items}<p>`
-    data = data.Items;
-  }
-})
-
-console.log({CurrentTime: new Date().toJSON().split('T')[0]});
-
-
-// for each object check if requested date has been passed or not
-// .. if passed, Delete the camp data
-// .. else, Check number of available units by fetching data 
-data.map(async(camp)=>{
-  let expired = checkExpiredDate(camp.date);
-  if(expired){
-    // const response = deleteCampData(camp.email, camp.id);
-  }else{
-    let url;
-    if(camp.facility[0] == "All"){
-        url = 'https://bccrdr.usedirect.com/rdr/rdr/fd/availability/getbyplace/'+ camp.placeId+'/startdate/'+camp.date+'/nights/'+camp.night+'/true?_=1616538168676'
-    }
-    else{
-        url = 'https://bccrdr.usedirect.com/rdr/rdr/fd/availability/getbyfacility/'+ camp.facility[0]+'/startdate/'+camp.date+'/nights/'+camp.night+'/true?_=1616538168676'
-    }
-    // Availability function will return message iff there is a free campsite
-    msg = await Availability(url, camp);
-    if(msg != ""){
-      var mailOptions = {
-        from: 'camphelperdonotreply@gmail.com',
-        to: camp.email,
-        subject: `${camp.campName} is avaiable on ${camp.date}!!`,
-        html: emailData + `<p>${msg}<p>`
-      };
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
+let queryData = [];
+try{ 
+  dynamodb.scan(queryParams, (err, data) => {
+    if (err) {
+      console.log({error: 'Could not load items: ' + err});
+    } else {
+      //data.Items
+      console.log({data: data});
+      console.log({data: data.Items});
+      queryData = data.Items;
+      queryData.map(async(camp)=>{
+        let expired = checkExpiredDate(camp.date);
+        if(expired){
+          // const response = deleteCampData(camp.email, camp.id);
+        }else{
+          let url;
+          if(camp.facility[0] == "All"){
+              url = 'https://bccrdr.usedirect.com/rdr/rdr/fd/availability/getbyplace/'+ camp.placeId+'/startdate/'+camp.date+'/nights/'+camp.night+'/true?_=1616538168676'
+          }
+          else{
+              url = 'https://bccrdr.usedirect.com/rdr/rdr/fd/availability/getbyfacility/'+ camp.facility[0]+'/startdate/'+camp.date+'/nights/'+camp.night+'/true?_=1616538168676'
+          }
+          // Availability function will return message iff there is a free campsite
+          const msg = await Availability(url, camp);
+          if(msg != ""){
+            var mailOptions = {
+              from: 'camphelperdonotreply@gmail.com',
+              to: camp.email,
+              subject: `${camp.campName} is avaiable on ${camp.date}!!`,
+              html: emailData + `<p>${msg}<p>`
+            };
+            transporter.sendMail(mailOptions, function(error, info){
+              if (error) {
+                console.log(error);
+              } else {
+                console.log('Email sent: ' + info.response);
+              }
+            });
+          }
         }
-      });
+      })
     }
-  }
-})
+  })
+}catch(err){
+  console.log("Fail to Scan ",err);
+}
 
 
 function checkExpiredDate(reservedDate){
@@ -132,7 +128,9 @@ function checkExpiredDate(reservedDate){
   return (d1 > d2)? true: false;
 }
 
+
 async function Availability( url, camp ){
+  const fetch = require("node-fetch");
   let free = 0;
   const data = await fetch(url)
     .then(res => res.json())
@@ -148,6 +146,7 @@ async function Availability( url, camp ){
           return "";
         }
         let temp =  camp.campName + " is available on \n" + camp.date + "\nLength: "+camp.night+" night(s) \nTotal Number of Avaiable Campsite : "+free +' \n Facility: '+camp.facility[1]+'\n\n\n'
+        console.log('temp: \n',temp);
         return temp;
       }
     )
@@ -159,5 +158,19 @@ async function Availability( url, camp ){
 
 // delete camp data
 async function deleteCampData(email, id) { 
-    return await API.del('campapi', '/camp/object/' + email + '/' + id);
+    // return await API.del('campapi', '/camp/object/' + email + '/' + id);
+    var params = {};
+    params[partitionKeyName] = req.params[partitionKeyName];
+    params[partitionKeyName] = convertUrlType(email, partitionKeyType);
+    params[sortKeyName] = convertUrlType(id, sortKeyType);
+    let removeItemParams = {
+      TableName: tableName,
+      Key: params
+    }
+    dynamodb.delete(removeItemParams, (err, data)=> {
+    if(err) {
+      res.statusCode = 500;
+      console.log('delete Error\n', {error: err, url: req.url});
+    } 
+  });
 }

@@ -19,7 +19,7 @@
         },
         "campingAvailabilityNotifier": {
           "deploymentBucketName": "amplify-camphelper-dev-153938-deployment",
-          "s3Key": "amplify-builds/campingAvailabilityNotifier-6a6d3264654f47385852-build.zip"
+          "s3Key": "amplify-builds/campingAvailabilityNotifier-4f63787835564d437768-build.zip"
         }
       }
     }
