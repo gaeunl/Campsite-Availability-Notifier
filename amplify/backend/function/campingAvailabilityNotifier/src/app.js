@@ -15,10 +15,9 @@
 
 const fetch = require("node-fetch");
 const AWS = require('aws-sdk');
-var nodemailer = require('nodemailer');
-// const cron = require('node-cron');
+const nodemailer = require('nodemailer');
+const gmail = require('./password');
 AWS.config.update({ region: process.env.TABLE_REGION });
-// AWS.config.update({region: "us-west-2"});
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const userIdPresent = false; // TODO: update in case is required to use that definition
@@ -38,12 +37,12 @@ if(process.env.ENV && process.env.ENV !== "NONE") {
 }
 
 // install aws-sdk, cron, nodemailer
-var emailData = `<h1>Hello</h1><p>That was easy!</p>`;
+var emailData = ``;
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'camphelperdonotreply@gmail.com',
-    pass: 'camphelper'
+    user: gmail.email,
+    pass: gmail.password
   }
 });
 
@@ -100,10 +99,10 @@ try{
           const msg = await Availability(url, camp);
           if(msg != ""){
             var mailOptions = {
-              from: 'camphelperdonotreply@gmail.com',
+              from: 'camphelper_do_not_reply@gmail.com',
               to: camp.email,
               subject: `${camp.campName} is avaiable on ${camp.date}!!`,
-              html: emailData + `<p>${msg}<p>`
+              html: `<p>${msg}<p>`
             };
             transporter.sendMail(mailOptions, function(error, info){
               if (error) {
@@ -138,15 +137,13 @@ async function Availability( url, camp ){
       (result) => {
         result.map((res) => {
           if(res.IsFree && !res.IsLocked){
-            // console.log("UnitId:" + res.UnitId + "\nFacilityId:" + res.FacilityId);
             free ++;
           }
         })
         if(free == 0){
           return "";
         }
-        let temp =  camp.campName + " is available on \n" + camp.date + "\nLength: "+camp.night+" night(s) \nTotal Number of Avaiable Campsite : "+free +' \n Facility: '+camp.facility[1]+'\n\n\n'
-        console.log('temp: \n',temp);
+        let temp =  camp.campName + " is available on <br>" + camp.date + "<br><br>Length: "+camp.night+" night(s) <br><br>Total Number of Avaiable Campsite : "+free +' <br><br>Facility: '+camp.facility[1];
         return temp;
       }
     )
