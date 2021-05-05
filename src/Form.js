@@ -64,6 +64,7 @@ export default function Form() {
             .catch(error => {
                 console.log("Error\n" + error.response);
             });
+        alert("Your information has been submitted successfully.\n Please check your email for the confirmation message.")
     };
 
     useEffect(() =>{

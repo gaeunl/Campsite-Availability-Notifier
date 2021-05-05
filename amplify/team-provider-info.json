@@ -15,7 +15,7 @@
       "function": {
         "campfunction": {
           "deploymentBucketName": "amplify-camphelper-dev-153938-deployment",
-          "s3Key": "amplify-builds/campfunction-653254376846714a6d45-build.zip"
+          "s3Key": "amplify-builds/campfunction-30695a52564532776841-build.zip"
         },
         "campingAvailabilityNotifier": {
           "deploymentBucketName": "amplify-camphelper-dev-153938-deployment",
