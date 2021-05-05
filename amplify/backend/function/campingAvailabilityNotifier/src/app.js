@@ -37,7 +37,6 @@ if(process.env.ENV && process.env.ENV !== "NONE") {
 }
 
 // install aws-sdk, cron, nodemailer
-var emailData = ``;
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {

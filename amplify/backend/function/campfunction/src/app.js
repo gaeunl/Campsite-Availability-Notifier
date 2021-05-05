@@ -12,6 +12,8 @@ const AWS = require('aws-sdk');
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
 var bodyParser = require('body-parser');
 var express = require('express');
+const nodemailer = require('nodemailer');
+const gmail = require('./password');
 
 AWS.config.update({ region: process.env.TABLE_REGION });
 
@@ -58,9 +60,41 @@ const convertUrlType = (param, type) => {
 /************************************
 * HTTP post method for insert object *
 *************************************/
-
+var emailData = `<h1>This is a Confirmation Email</h1>
+  <p>We just got your request.<br>
+  We will send you an email once the campsite is available<br><br>
+  Have A Good One!<br><br><br></p>`;
 app.post(path, function(req, res) {
+  const camp = req.body;
 
+  //create reusable transporter object using the default SMPT transport
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: gmail.email,
+      pass: gmail.password
+    }
+  });
+  var mailOptions = {
+    from: 'camphelperdonotreply@gmail.com',
+    to: camp.email,
+    subject: `This is a confirmation email for submitted campsite: ${camp.campName}`,
+    html: emailData + `<p><br>Requested Data<br>Name of Campsite:  ${camp.campName} <br> Date: ${camp.date} <br> length: ${camp.night}<p>`
+  };
+   console.log(emailData);
+  
+  var sentmail = async()=>{
+    return new Promise((resolve,reject)=>{
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log("Mail Error",error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+    })
+  }
+  // send mail with defined transport object
   if (userIdPresent) {
     req.body['userId'] = req.apiGateway.event.requestContext.identity.cognitoIdentityId || UNAUTH;
   }
