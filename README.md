@@ -1,11 +1,20 @@
-# Website
+# Campsite Email Notification 
+During COVID-19, people are flocking to camping. As a result, demand for campgrounds has drastically increased.
+For the people who could not make a reservation is targeting cancelled campgrounds.
+This web app will monitor cancelled campgrounds and notify users through email once the requested campground is available.
 
-Please [click here](https://dev.d2tq286k5x0hys.amplifyapp.com) to visit the website
+Please [click here](https://dev.d2tq286k5x0hys.amplifyapp.com) to check it out
+
+## Demo
+DEMO HERE
+
+## Architecture
+![camphelper](https://user-images.githubusercontent.com/33018110/117222804-32f2d300-adc1-11eb-9bf8-b2b1e9be6663.png)
+
+## Documentation
+[Click here](https://docs.google.com/document/d/105SbCvqUYzTrdNdpZKLiySffJ7y9nqiKY2cH6nJGhZM/edit?usp=sharing)
 
 ## To-do
-
-- [ ] Create a card and show the information that user entered on the other page [example] ( https://css-tricks.com/the-magic-of-react-based-multi-step-forms/)
-
 - [x] Connect DB and store in the db
 
 - [x] change date format to mm-dd-yyyy
@@ -14,12 +23,16 @@ Please [click here](https://dev.d2tq286k5x0hys.amplifyapp.com) to visit the webs
 
   - AWS Amplify for CI/CD - [click here to view](https://main.d1x6fronyrj8ey.amplifyapp.com/)
 
-- [ ] register a domain name by using aws route 53
+- [x] register a domain name by using aws route 53
+  - [checked price] https://aws.amazon.com/route53/pricing/ 
 
 - [ ] add unit id and availability
 
-- [ ] delete data from a table vs filter
+- [x] delete data from a table vs filter
   - [Check price] (https://blog.yugabyte.com/dynamodb-pricing-calculator-expensive-vs-alternatives/)
+
+- [ ] creat youtube demo video
+- [ ] write test cases
 
 ## AWS Amplify Docs
 
