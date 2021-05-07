@@ -1,12 +1,13 @@
 # Campsite Email Notification 
 During COVID-19, people are flocking to camping. As a result, demand for campgrounds has drastically increased.
 For the people who could not make a reservation is targeting cancelled campgrounds.
-This web app will monitor cancelled campgrounds and notify users through email once the requested campground is available.
+This web app will monitor cancelled campgrounds every one hour.
+If there is avaiilable campsties, we will notify users through email.
 
 Please [click here](https://dev.d2tq286k5x0hys.amplifyapp.com) to check it out
 
 ## Demo
-DEMO HERE
+![DEMO HERE](https://user-images.githubusercontent.com/33018110/117484550-10c19800-af1c-11eb-9b04-74e5bee995e8.gif)
 
 ## Architecture
 ![camphelper](https://user-images.githubusercontent.com/33018110/117222804-32f2d300-adc1-11eb-9bf8-b2b1e9be6663.png)
@@ -41,6 +42,7 @@ https://docs.amplify.aws/start
 ## Command
 
 | Build Command: npm install
+
 | Start Command: npm start
 
 ## npm modules
