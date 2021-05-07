@@ -26,12 +26,11 @@ export default function Form() {
 
     const onSubmit = data => {
         let facilityData = facility.split(",");
-        let parsedDate = date;
-
-        // let parsedDate = date.split("-");
-        // parsedDate.push(parsedDate[0]);
-        // parsedDate.shift();
-        // parsedDate = parsedDate.join('-');
+        let valid = checkDate(date);
+        if(!valid){
+            alert("Date Format is wrong!\n\n Date should be greather than Today");
+            return;
+        }
         
 
         let confirmed = window.confirm(`Request detail: \n 
@@ -50,7 +49,7 @@ export default function Form() {
                     id: generateUniqueId(),
                     facility: facilityData,
                     campName:campName,
-                    date: parsedDate,
+                    date: date,
                     email: email,
                     night:nights,
                     placeId:placeId.toString(),
@@ -139,10 +138,9 @@ export default function Form() {
             </select>
             
            
-            <label>Select Date</label>
+            <label>Select Date (yyyy-mm-dd)</label>
             <input type="date" id="date" name="date"
-                min={today} value={date} onChange={e => setDate(e.target.value)} required></input>
-
+                min={today} value={date} onChange={e => setDate(e.target.value)} placeholder="yyyy-mm-dd" required pattern="\d{4}-\d{2}-\d{2}"></input>
 
             <label >Stay Length (between 1 to 14)</label>
             <input type="number" value={nights} onChange={e => setNights(e.target.value)} required min="1" max="14"/>
@@ -157,3 +155,8 @@ export default function Form() {
     );
 }
 
+function checkDate(reservedDate){
+    var d1 = new Date().toJSON().split('T')[0];
+    var d2 = new Date(reservedDate).toJSON().split('T')[0];
+    return (d1 > d2)? true: false;
+}
