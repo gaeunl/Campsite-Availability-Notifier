@@ -44,7 +44,3 @@ https://docs.amplify.aws/start
 | Build Command: npm install
 
 | Start Command: npm start
-
-## npm modules
-
-- [Generate Unique ID] (https://www.npmjs.com/package/generate-unique-id)
