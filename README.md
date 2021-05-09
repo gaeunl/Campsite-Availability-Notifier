@@ -10,6 +10,7 @@ Please [click here](https://dev.d2tq286k5x0hys.amplifyapp.com) to check it out
 ## Demo
 
 ![DEMO HERE](https://user-images.githubusercontent.com/33018110/117484550-10c19800-af1c-11eb-9b04-74e5bee995e8.gif)
+![NotifierGIF](https://user-images.githubusercontent.com/33018110/117557121-a8aaa900-b024-11eb-8523-c47384ab9b9a.gif)
 
 ## Architecture
 
